@@ -7,6 +7,10 @@ st.title("🌟 Today's Spotlight")
 user_id, _ = get_spotlight_user()
 users = get_all_users()
 
+# ✅ Build dynamic path to logo image
+current_dir = os.path.dirname(_file_)
+logo_path = os.path.join(current_dir, "..", "assets", "logo.png")
+
 if not user_id:
     st.warning("No spotlight user selected yet.")
 else:
@@ -17,14 +21,15 @@ else:
             break
 
     if spotlight_user:
-        name, bio, image_path = spotlight_user[1], spotlight_user[2], spotlight_user[3]
+        name, bio, image_url = spotlight_user[1], spotlight_user[2], spotlight_user[3]
         col1, col2 = st.columns([1, 3])
 
         with col1:
-            if image_path and os.path.exists(image_path):
-                st.image(image_path, width=180)
+            if image_url and os.path.exists(image_url):
+                st.image(image_url, width=60)
             else:
-                st.image("https://via.placeholder.com//180", caption="No Image")
+                # ✅ Use relative logo path for deployment
+                st.image(logo_path, width=60)
 
         with col2:
             st.markdown(f"## 🧑 {name}")
@@ -34,4 +39,4 @@ else:
 
 # 🌍 Navigation link to Community Posts
 st.divider()
-st.page_link("pages/Posts.py", label="🌍 Community Posts")
+st.page_link("pages/Posts.py", label="🌍 Community Posts")
