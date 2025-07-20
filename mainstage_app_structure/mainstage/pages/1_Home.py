@@ -328,10 +328,14 @@ else:
 
         # 📸 Show profile image (from image_url in DB)
         with col1:
-            if image_url:
-                st.image(image_url, width=120)
-            else:
-                st.image("https://via.placeholder.com/120", caption="No Image")
+            try:
+                if image_url and image_url.startswith("http"):
+                    st.image(image_url, width=120)
+                else:
+                    st.image("https://via.placeholder.com/120", width=120, caption="No Image")
+            except Exception as e:
+                st.image("https://via.placeholder.com/120", width=120, caption="Image Load Error")
+                st.error(f"Image load error: {e}")
 
         # 👑 Show name and bio
         with col2:
@@ -343,3 +347,4 @@ else:
 # 🌍 Navigation link to Community Posts
 st.divider()
 st.page_link("pages/Posts.py", label="🌍 Community Posts")
+
