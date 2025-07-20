@@ -55,17 +55,26 @@ import streamlit as st
 import os
 from utils.database import get_spotlight_user, get_all_users
 
-# ✅ Add blue background with CSS
+# ✅ Add black background with CSS
 st.markdown("""
     <style>
         [data-testid="stAppViewContainer"] {
-            background-color: #e0f0ff;
+            background-color: #000000;  /* Pure black */
+            color: white;               /* Text color */
         }
         [data-testid="stHeader"] {
-            background: rgba(0, 0, 255, 0.05);
+            background: rgba(255, 255, 255, 0.05);
         }
         [data-testid="stSidebar"] {
-            background-color: #cce6ff;
+            background-color: #1a1a1a;  /* Dark sidebar */
+        }
+        .stButton > button {
+            background-color: #333333;
+            color: white;
+        }
+        .stTextInput>div>div>input {
+            background-color: #1a1a1a;
+            color: white;
         }
     </style>
 """, unsafe_allow_html=True)
