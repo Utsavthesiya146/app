@@ -55,30 +55,6 @@ import streamlit as st
 import os
 from utils.database import get_spotlight_user, get_all_users
 
-# ✅ Add black background with CSS
-st.markdown("""
-    <style>
-        [data-testid="stAppViewContainer"] {
-            background-color: #000000;  /* Pure black */
-            color: white;               /* Text color */
-        }
-        [data-testid="stHeader"] {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        [data-testid="stSidebar"] {
-            background-color: #1a1a1a;  /* Dark sidebar */
-        }
-        .stButton > button {
-            background-color: #333333;
-            color: white;
-        }
-        .stTextInput>div>div>input {
-            background-color: #1a1a1a;
-            color: white;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
 # ✅ Page title
 st.title("🌟 Today's Spotlight")
 
