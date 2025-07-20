@@ -318,7 +318,11 @@ users = get_all_users()
 if not user_id:
     st.warning("No spotlight user selected yet.")
 else:
-    spotlight_user = next((u for u in users if u[0] == user_id), None)
+    spotlight_user = None
+    for u in users:
+        if u[0] == user_id:
+            spotlight_user = u
+            break
 
     if spotlight_user:
         name, bio, image_path = spotlight_user[1], spotlight_user[2], spotlight_user[3]
@@ -328,7 +332,7 @@ else:
             if image_path:
                 try:
                     st.image(image_path, width=180)
-                except:
+                except Exception as e:
                     st.image("https://via.placeholder.com/180", caption="Image not found")
             else:
                 st.image("https://via.placeholder.com/180", caption="No Image")
@@ -342,4 +346,3 @@ else:
 # 🌍 Navigation link to Community Posts
 st.divider()
 st.page_link("pages/Posts.py", label="🌍 Community Posts")
-
