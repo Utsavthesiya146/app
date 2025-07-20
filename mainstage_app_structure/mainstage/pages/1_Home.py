@@ -307,38 +307,35 @@
 
 
 import streamlit as st
-import os
 from utils.database import get_spotlight_user, get_all_users
 
+# 🌟 Page title
 st.title("🌟 Today's Spotlight")
 
+# 👤 Get spotlight user and all users
 user_id, _ = get_spotlight_user()
 users = get_all_users()
 
 if not user_id:
     st.warning("No spotlight user selected yet.")
 else:
-    spotlight_user = None
-    for u in users:
-        if u[0] == user_id:
-            spotlight_user = u
-            break
+    # 🔍 Find spotlight user from list
+    spotlight_user = next((u for u in users if u[0] == user_id), None)
 
     if spotlight_user:
-        name, bio, image_path = spotlight_user[1], spotlight_user[2], spotlight_user[3]
-        col1, col2 = st.columns([1, 3])
+        name, bio, image_url = spotlight_user[1], spotlight_user[2], spotlight_user[3]
+        col1, col2 = st.columns([1, 4])
 
+        # 📸 Show profile image (from image_url in DB)
         with col1:
-            if image_path:
-                try:
-                    st.image(image_path, width=180)
-                except Exception as e:
-                    st.image("https://via.placeholder.com/180", caption="Image not found")
+            if image_url:
+                st.image(image_url, width=120)
             else:
-                st.image("https://via.placeholder.com/180", caption="No Image")
+                st.image("https://via.placeholder.com/120", caption="No Image")
 
+        # 👑 Show name and bio
         with col2:
-            st.markdown(f"## 🧑 {name}")
+            st.markdown(f"### 🧑 {name}")
             st.markdown(f"📜 {bio}")
     else:
         st.error("Spotlight user not found in database.")
