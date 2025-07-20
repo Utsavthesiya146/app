@@ -218,40 +218,87 @@
 
 
 
+# import streamlit as st
+# from utils.database import get_spotlight_user, get_all_users
+# import os
+
+# st.title("🌟 Today's Spotlight")
+
+# # 🔄 Get spotlight user ID and all user data
+# user_id, _ = get_spotlight_user()
+# users = get_all_users()
+
+# if not user_id:
+#     st.warning("No spotlight user selected yet.")
+# else:
+#     spotlight_user = next((u for u in users if u[0] == user_id), None)
+
+#     if spotlight_user:
+#         name, bio, image_path = spotlight_user[1], spotlight_user[2], spotlight_user[3]
+
+#         # 👇 Profile section: image + name in same row
+#         col1, col2 = st.columns([1, 4])
+
+#         with col1:
+#             if image_path and os.path.exists(image_path):
+#                 st.image(image_path, width=100)
+#             else:
+#                 st.image("https://via.placeholder.com/100", caption="No Image")
+
+#         with col2:
+#             st.markdown(f"### 🧑 {name}")
+#             st.markdown(f"📝 {bio}")
+
+#     else:
+#         st.error("Spotlight user not found.")
+
+# # Divider and navigation
+# st.divider()
+# st.page_link("pages/Posts.py", label="🌍 Community Posts")
+
+
+
+
+
+
 import streamlit as st
-from utils.database import get_spotlight_user, get_all_users
 import os
+from utils.database import get_spotlight_user, get_all_users
 
 st.title("🌟 Today's Spotlight")
 
-# 🔄 Get spotlight user ID and all user data
 user_id, _ = get_spotlight_user()
 users = get_all_users()
 
 if not user_id:
     st.warning("No spotlight user selected yet.")
 else:
-    spotlight_user = next((u for u in users if u[0] == user_id), None)
+    spotlight_user = None
+    for u in users:
+        if u[0] == user_id:
+            spotlight_user = u
+            break
 
     if spotlight_user:
         name, bio, image_path = spotlight_user[1], spotlight_user[2], spotlight_user[3]
 
-        # 👇 Profile section: image + name in same row
-        col1, col2 = st.columns([1, 4])
+        # 👇 Profile Name and Image side-by-side
+        st.markdown("### 🧑 Spotlight User")
 
-        with col1:
+        row1_col1, row1_col2 = st.columns([1, 4])
+        with row1_col1:
             if image_path and os.path.exists(image_path):
-                st.image(image_path, width=100)
+                st.image(image_path, width=80)
             else:
-                st.image("https://via.placeholder.com/100", caption="No Image")
+                st.image("https://via.placeholder.com/80", caption="No Image", width=80)
 
-        with col2:
-            st.markdown(f"### 🧑 {name}")
-            st.markdown(f"📝 {bio}")
-
+        with row1_col2:
+            st.markdown(f"### {name}")
+            st.markdown(f"📜 {bio}")
     else:
-        st.error("Spotlight user not found.")
+        st.error("Spotlight user not found in database.")
 
-# Divider and navigation
+# 🌍 Navigation link to Community Posts
 st.divider()
 st.page_link("pages/Posts.py", label="🌍 Community Posts")
+
